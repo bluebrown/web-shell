@@ -1,0 +1,19 @@
+{
+  "name": "webshell",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.mjs",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-pty": "^0.10.1",
+    "ws": "^8.7.0",
+    "xterm": "^4.18.0"
+  }
+}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="/node_modules/xterm/css/xterm.css" />
+    <script src="/node_modules/xterm/lib/xterm.js"></script>
+    <style>
+        body {
+            font-family: monospace;
+            text-align: center;
+            padding-top: 3rem;
+        }
+
+        .container {
+            max-width: fit-content;
+            margin: 0 auto;
+        }
+    </style>
+    <script type="module" defer>
+        const ws = new WebSocket('ws://localhost:3000');
+        const term = new Terminal();
+        term.open(document.getElementById('terminal'));
+        term.onData((data) => ws.send(data));
+        ws.onmessage = ({ data }) => {
+            const stream = data.stream();
+            const reader = stream.getReader();
+            reader.read().then(function processText({ done, value }) {
+                if (done) return;
+                term.write(value);
+                return reader.read().then(processText);
+            }).catch(console.error);
+        };
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Web Shell</h1>
+        <div id="terminal"></div>
+    </div>
+
+
+</body>
+
+</html>
